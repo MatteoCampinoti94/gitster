@@ -9,8 +9,10 @@ _prompt_gitster_pwd() {
   local git_root current_dir
   if git_root=$(command git rev-parse --show-toplevel 2>/dev/null); then
     current_dir="${PWD#${git_root:h}/}"
-  else
+  elif [[ -n "$_GITSTER_PROMPT_ORIGINAL" ]] ; then
     current_dir=${(%):-%~}
+  else
+    current_dir="%(5~|%-1~/.../%3~|%4~)"
   fi
   print -n "%F{white}${current_dir}"
 }
